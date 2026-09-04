@@ -4,7 +4,8 @@ plugins {
 
 def buildNumber = project.findProperty("buildNumber") ?: "LOCAL"
 def gitCommit = project.findProperty("gitCommit") ?: "LOCAL"
-def shortGitCommit = gitCommit.length() > 7 ? gitCommit.substring(0, 7) : gitCommit
+def shortGitCommit = gitCommit.toString().take(7)
+def buildVersionName = "1.0-build${buildNumber}-${shortGitCommit}"
 
 android {
     namespace 'com.example.adbfreereceiver'
@@ -14,24 +15,21 @@ android {
         applicationId 'com.example.adbfreereceiver'
         minSdk 29
         targetSdk 34
-        versionCode (buildNumber ==~ /\d+/) ? buildNumber.toInteger() : 1
-        versionName "1.0-build${buildNumber}-${shortGitCommit}"
-    }
+        versionCode buildNumber.isInteger() ? buildNumber.toInteger() : 1
+        versionName buildVersionName
 
-    // Keep the build identity available inside the APK.
-    buildFeatures {
-        buildConfig true
-    }
-
-    defaultConfig {
         buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
         buildConfigField "String", "GIT_COMMIT", "\"${gitCommit}\""
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     applicationVariants.all { variant ->
         if (variant.name == "debug") {
             variant.outputs.all {
-                outputFileName = "adb-free-receiver-v${android.defaultConfig.versionName}.apk"
+                outputFileName = "adb-free-receiver-v${buildVersionName}.apk"
             }
         }
     }
