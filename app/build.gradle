@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+}
+
+def buildNumber = project.findProperty("buildNumber") ?: "LOCAL"
+def gitCommit = project.findProperty("gitCommit") ?: "LOCAL"
+def shortGitCommit = gitCommit.length() > 7 ? gitCommit.substring(0, 7) : gitCommit
+
+android {
+    namespace 'com.example.adbfreereceiver'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.example.adbfreereceiver'
+        minSdk 29
+        targetSdk 34
+        versionCode (buildNumber ==~ /\d+/) ? buildNumber.toInteger() : 1
+        versionName "1.0-build${buildNumber}-${shortGitCommit}"
+    }
+
+    // Keep the build identity available inside the APK.
+    buildFeatures {
+        buildConfig true
+    }
+
+    defaultConfig {
+        buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
+        buildConfigField "String", "GIT_COMMIT", "\"${gitCommit}\""
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.name == "debug") {
+            variant.outputs.all {
+                outputFileName = "adb-free-receiver-v${android.defaultConfig.versionName}.apk"
+            }
+        }
+    }
+}
+
+configurations.configureEach {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'org.jetbrains.kotlin') {
+            details.useVersion '1.8.22'
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.core:core:1.13.1'
+}
