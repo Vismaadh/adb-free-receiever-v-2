@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
+
+      - name: Build APK
+        run: |
+          gradle assembleDebug -PbuildNumber="${{ github.run_number }}" -PgitCommit="${{ github.sha }}"
+
+      - name: Create build record
+        shell: bash
+        run: |
+          cat > app/build/outputs/apk/debug/build-info.txt <<EOF
+          ADB-Free Receiver
+          Build number: ${{ github.run_number }}
+          Git commit: ${{ github.sha }}
+          Short commit: ${GITHUB_SHA:0:7}
+          Branch/ref: ${{ github.ref_name }}
+          Build date (UTC): $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          Workflow run: ${{ github.run_id }}
+          EOF
+
+      - name: Upload APK and build record
+        uses: actions/upload-artifact@v4
+        with:
+          name: ADB-Free-Receiver-Build-${{ github.run_number }}
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/debug/build-info.txt
