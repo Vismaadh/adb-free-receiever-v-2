@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- Add this line inside your existing <resources> element. -->
+<string name="widget_receiver_description">ADB-Free Receiver on/off toggle</string>
+</resources>
