@@ -1,5 +1,5 @@
-ADB-FREE RECEIVER
-=================
+ADB-FREE RECEIVER - WITH BUILD AND COMMIT STAMPS
+================================================
 
 This is a small Android receiver intended to replace ADB for simple
 PC -> Android folder transfers over the phone's Wi-Fi hotspot.
