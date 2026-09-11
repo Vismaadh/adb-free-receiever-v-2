@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="widget_receiver_description">ADB-Free Receiver toggle</string>
-    <string name="widget_receiver_label">Receiver</string>
-</resources>
