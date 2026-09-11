@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="receiver_toggle"
+        android:enabled="true"
+        android:icon="@drawable/widget_receiver_off_icon"
+        android:shortcutShortLabel="@string/widget_receiver_label"
+        android:shortcutLongLabel="@string/widget_receiver_label">
+        <intent
+            android:action="com.example.adbfreereceiver.RECEIVER_SHORTCUT_TOGGLE"
+            android:targetPackage="com.example.adbfreereceiver"
+            android:targetClass="com.example.adbfreereceiver.ReceiverShortcutActivity" />
+    </shortcut>
+</shortcuts>
