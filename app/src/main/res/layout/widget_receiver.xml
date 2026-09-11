@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_status"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="2dp"
+    android:gravity="center"
+    android:text="OFF"
+    android:textColor="@android:color/white"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    android:contentDescription="Receiver is OFF. Tap to turn it on."
+    android:background="@drawable/widget_off"
+    android:clickable="true"
+    android:focusable="true" />
